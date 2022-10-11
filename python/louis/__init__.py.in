@@ -51,6 +51,7 @@ from ctypes import (
     POINTER,
     byref,
     create_string_buffer,
+    CDLL,
 )
 
 try:  # Native win32
@@ -58,7 +59,9 @@ try:  # Native win32
     _loader, _functype = windll, WINFUNCTYPE
 except ImportError:  # Unix/Cygwin
     _loader, _functype = cdll, CFUNCTYPE
-liblouis = _loader["###LIBLOUIS_SONAME###"]
+import os
+path_f = os.path.abspath( os.path.join(os.path.dirname(__file__), "liblouis.so.20"))
+liblouis = CDLL(path_f)
 _is_windows = platform == "win32"
 
 # { Module Configuration
